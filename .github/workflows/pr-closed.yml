@@ -2,6 +2,8 @@ name: pull-request-closed
 on:
   pull_request:
     types: [closed]
+    paths:
+        - "src/**"
 
 jobs:
   build-image-job:
