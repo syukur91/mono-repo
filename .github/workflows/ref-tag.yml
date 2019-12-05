@@ -1,8 +1,8 @@
 name: ref-tag
-on:
-  push:
-    tags:
-      - mono-code-prod-*
+on: [push]
+  # push:
+  #   tags:
+  #     - mono-code-prod-*
 
 jobs:
   miyazaki-infra-staging-deployment:
@@ -20,7 +20,7 @@ jobs:
       - name: Check the ref
         run: export APP_TAG=`printf $(git show-ref --abbrev=7 $GITHUB_REF)`
         env:
-          GITHUB_REF: ${{ toJson(github.ref) }}
+          GITHUB_REF: "refs/tags/mono-code-prod-6310e46"
 
       - name: Check the ref again
         run: echo $APP_TAG
