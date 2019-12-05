@@ -23,7 +23,7 @@ jobs:
           GITHUB_REF: "refs/tags/mono-code-prod-6310e46"
 
       - name: Check the ref again
-        run: echo $APP_TAG
+        run: echo ${APP_TAG}
       
       # - name: Get the ref
       # #   run: export APP_TAG="${$(echo $(git show-ref --abbrev=7 $REF)):0:7}" && docker pull docker.pkg.github.com/syukur91/mono-repo/hello-github:$APP_TAG
