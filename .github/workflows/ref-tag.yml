@@ -18,6 +18,6 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
 
       - name: Get the ref
-        run: export APP_TAG=`echo $(git show-ref --abbrev=7 $REF)` && echo "$APP_TAG"
+        run: export APP_TAG="${$(echo $(git show-ref --abbrev=7 $REF)):0:7}" && docker pull docker.pkg.github.com/syukur91/mono-repo/hello-github:$APP_TAG
         env:
           REF: ${{ toJson(github.ref) }}
