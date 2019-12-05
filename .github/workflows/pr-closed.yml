@@ -45,7 +45,7 @@ jobs:
           BRANCH_COMMMIT_ID: ${{ toJson(github.event.pull_request.head.sha) }}
 
       - name: push application to our Private Hub
-        run:  export APP_TAG=`sed -e 's/^"//' -e 's/"$//' <<<"$MASTER_COMMIT_ID" | cut -c1-7` && docker.pkg.github.com/syukur91/my-mono/hello-world:$APP_TAG
+        run:  export APP_TAG=`sed -e 's/^"//' -e 's/"$//' <<<"$MASTER_COMMIT_ID" | cut -c1-7` && docker push docker.pkg.github.com/syukur91/my-mono/hello-world:$APP_TAG
         working-directory: src
         env:
           MASTER_COMMIT_ID: ${{ toJson(github.event.pull_request.merge_commit_sha) }}
