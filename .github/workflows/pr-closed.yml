@@ -32,20 +32,20 @@ jobs:
           TOKEN: ${{ secrets.PERSONAL_DEV_TOKEN }}
 
       - name: dockerize the branch tag
-        run: export BRANCH_TAG=`sed -e 's/^"//' -e 's/"$//' <<<"$BRANCH_COMMMIT_ID" | cut -c1-7` && docker build -t docker.pkg.github.com/syukur91/my-mono/hello-world:$BRANCH_TAG  .
+        run: export BRANCH_TAG=`sed -e 's/^"//' -e 's/"$//' <<<"$BRANCH_COMMMIT_ID" | cut -c1-7` && docker build -t docker.pkg.github.com/syukur91/mono-repo/hello-github:$BRANCH_TAG  .
         working-directory: src
         env:
           BRANCH_COMMMIT_ID: ${{ toJson(github.event.pull_request.head.sha) }}
 
       - name: retag
-        run:  export BRANCH_TAG=`sed -e 's/^"//' -e 's/"$//' <<<"$BRANCH_COMMMIT_ID" | cut -c1-7` && export MASTER_TAG=`sed -e 's/^"//' -e 's/"$//' <<<"$MASTER_COMMIT_ID" | cut -c1-7 ` && docker tag docker.pkg.github.com/syukur91/my-mono/hello-world:$BRANCH_TAG docker.pkg.github.com/syukur91/my-mono/hello-world:$MASTER_TAG 
+        run:  export BRANCH_TAG=`sed -e 's/^"//' -e 's/"$//' <<<"$BRANCH_COMMMIT_ID" | cut -c1-7` && export MASTER_TAG=`sed -e 's/^"//' -e 's/"$//' <<<"$MASTER_COMMIT_ID" | cut -c1-7 ` && docker tag docker.pkg.github.com/syukur91/mono-repo/hello-github:$BRANCH_TAG docker.pkg.github.com/syukur91/mono-repo/hello-github:$MASTER_TAG 
         working-directory: src
         env:
           MASTER_COMMIT_ID: ${{ toJson(github.event.pull_request.merge_commit_sha) }}
           BRANCH_COMMMIT_ID: ${{ toJson(github.event.pull_request.head.sha) }}
 
       - name: push application to our Private Hub
-        run:  export APP_TAG=`sed -e 's/^"//' -e 's/"$//' <<<"$MASTER_COMMIT_ID" | cut -c1-7` && docker push docker.pkg.github.com/syukur91/my-mono/hello-world:$APP_TAG
+        run:  export APP_TAG=`sed -e 's/^"//' -e 's/"$//' <<<"$MASTER_COMMIT_ID" | cut -c1-7` && docker push docker.pkg.github.com/syukur91/mono-repo/hello-github:$APP_TAG
         working-directory: src
         env:
           MASTER_COMMIT_ID: ${{ toJson(github.event.pull_request.merge_commit_sha) }}
