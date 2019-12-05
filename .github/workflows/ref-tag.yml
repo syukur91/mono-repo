@@ -1,8 +1,8 @@
 name: ref-tag
-on: [push]
-  # push:
-  #   tags:
-  #     - mono-code-prod-*
+on: 
+  push:
+    tags:
+      - mono-code-prod-*
 
 jobs:
   miyazaki-infra-staging-deployment:
@@ -17,21 +17,17 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
 
-      - name: Check the ref
-        run: export APP_TAG=`printf $(git show-ref --abbrev=7 $GITHUB_REF)`
+      - name: login to our private repository
+        run: docker login docker.pkg.github.com --username techacc -p $TOKEN 2>/dev/null
         env:
-          GITHUB_REF: "refs/tags/mono-code-prod-6310e46"
-
-      - name: Check the ref again
-        run: echo ${APP_TAG}
+          TOKEN: ${{ secrets.PERSONAL_DEV_TOKEN }}
       
       # - name: Get the ref
       # #   run: export APP_TAG="${$(echo $(git show-ref --abbrev=7 $REF)):0:7}" && docker pull docker.pkg.github.com/syukur91/mono-repo/hello-github:$APP_TAG
       #   run: export TAG=`echo $APP_TAG | cut -c1-7`
       
       - name: Print the tag
-      #   run: export APP_TAG="${$(echo $(git show-ref --abbrev=7 $REF)):0:7}" && docker pull docker.pkg.github.com/syukur91/mono-repo/hello-github:$APP_TAG
         run: export APP_TAG=`printf $(git show-ref --abbrev=7 $GITHUB_REF)` && docker pull docker.pkg.github.com/syukur91/mono-repo/hello-github:$APP_TAG
         env:
-          GITHUB_REF: "refs/tags/mono-code-prod-6310e46"
+          GITHUB_REF: ${{ toJson(github.ref) }}
         
