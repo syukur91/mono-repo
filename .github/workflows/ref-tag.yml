@@ -18,7 +18,7 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
 
       - name: Check the ref
-        run: export APP_TAG=$(git show-ref --abbrev=7 $GITHUB_REF)
+        run: export APP_TAG=`echo $(git show-ref --abbrev=7 $GITHUB_REF)`
         env:
           GITHUB_REF: ${{ toJson(github.ref) }}
 
