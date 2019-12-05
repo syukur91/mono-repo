@@ -16,3 +16,8 @@ jobs:
         run: echo "$GITHUB_CONTEXT"
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
+
+      - name: Get the ref
+        run: git show-ref --abbrev=7 $REF
+        env:
+          REF: ${{ toJson(github.ref) }}
